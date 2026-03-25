@@ -11,4 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     //Enables http://localhost:8080/api/reviews/search
     //Can do http://localhost:8080/api/reviews/search/findByBookId?bookId={#}
     Page<Review> findByBookId(@RequestParam("book_id") Long bookId, Pageable pageable);
+
+    Review findByUserEmailAndBookId(String userEmail, Long bookId);
 }

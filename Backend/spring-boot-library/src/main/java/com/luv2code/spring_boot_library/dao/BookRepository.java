@@ -4,7 +4,10 @@ import com.luv2code.spring_boot_library.entity.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.*;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     //@RequestParam allows backend read query url values. Ex: /api/books?page=0&size=10
@@ -32,4 +35,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     //        }
     //Can now do something like: http://localhost:8080/api/books/search/findByCategory?category=fe
     Page<Book> findByCategory(@RequestParam("category") String category, Pageable pageable);
+
+
+    //Because this function takes in "multiple (a list)" parameters, Spring will not autoquery. Need to specify with @Query
+    @Query("select o from Book o where id in :book_ids")
+    List<Book> findBooksByBookIds(@Param("book_ids") List<Long> bookId);
 }
