@@ -160,7 +160,7 @@ export const Loans = () => {
                             Currently no loans
                         </h3>
                         <Link className='btn btn-primary' to={`search`}>
-                            Searcj for a new book
+                            Search for a new book
                         </Link>
                     </>
                 }
