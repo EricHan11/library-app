@@ -5,11 +5,22 @@ import { SpinnerLoading } from "../Utils/SpinnerLoading";
 
 export const Navbar = () => {
     const { isAuthenticated, loginWithRedirect, logout, getIdTokenClaims } = useAuth0();
+    const [roles, setRoles] = useState<string[] | null>(null); 
     const [loading, setLoading] = useState(true); // Loading state to handle async data
 
     // if (loading) {
     //     return <SpinnerLoading />
     // }
+    useEffect(() => {
+    const fetchRoles = async () => {
+        const claims = await getIdTokenClaims();
+        const fetchedRoles = claims?.['https://luv2code-react-library.com/roles'] || [];
+        setRoles(fetchedRoles);
+        setLoading(false); // Set loading to false once roles are loaded
+    };
+
+    fetchRoles();
+}, [isAuthenticated, getIdTokenClaims]);
 
     const handleLogout = () => {
         console.log("handleLogout");
@@ -42,6 +53,11 @@ export const Navbar = () => {
                                 <NavLink className='nav-link' to='/shelf'>Shelf</NavLink>
                             </li>
                         }
+                        {isAuthenticated && roles?.includes('admin') &&
+              <li className='nav-item'>
+                <NavLink className='nav-link' to='/admin'>Admin</NavLink>
+              </li>
+            }
                     </ul>
                     <ul className='navbar-nav ms-auto'>
                         {!isAuthenticated ?

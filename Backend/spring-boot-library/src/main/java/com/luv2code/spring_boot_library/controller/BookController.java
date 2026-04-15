@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/books")
 public class BookController {

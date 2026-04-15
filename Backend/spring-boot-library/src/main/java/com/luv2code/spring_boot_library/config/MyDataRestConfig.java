@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 //Making JpaRepository only allow read-only requests (GET requests)
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
-    private String theAllowedOrigins = "http://localhost:3000";
+    private String theAllowedOrigins = "https://localhost:3000";
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config,

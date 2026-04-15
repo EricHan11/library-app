@@ -1,12 +1,15 @@
 package com.luv2code.spring_boot_library.controller;
 
 import com.luv2code.spring_boot_library.entity.Message;
+import com.luv2code.spring_boot_library.requestmodels.AdminQuestionRequest;
 import com.luv2code.spring_boot_library.service.MessagesService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+import java.util.List;
+
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessagesController {
@@ -22,5 +25,18 @@ public class MessagesController {
                             @RequestBody Message messageRequest) {
         String userEmail = jwt.getClaim("email");
         messagesService.postMessage(messageRequest, userEmail);
+    }
+
+    //only admins can respond to messages by users
+    @PutMapping("/secure/admin/message")
+    public void putMessage(@AuthenticationPrincipal Jwt jwt,
+                           @RequestBody AdminQuestionRequest adminQuestionRequest) throws Exception {
+        String userEmail = jwt.getClaim("email");
+        List<String> roles = jwt.getClaimAsStringList("https://luv2code-react-library.com/roles");
+        String admin = roles != null && !roles.isEmpty() ? roles.get(0) : null;
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception("Administration page only.");
+        }
+        messagesService.putMessage(adminQuestionRequest, userEmail);
     }
 }
