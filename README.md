@@ -18,6 +18,7 @@ A full-stack web application where users can search for books, borrow/renew them
 - **React**
 - **TypeScript**
 - **Auth0**
+- **HTML + Bootstrap**
 
 ### Backend
 - **Java**
